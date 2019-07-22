@@ -1,0 +1,55 @@
+                                                           SAMPLE INPUTS
+
+Input is of the form-
+
+packet([Adapter,Ethernet,IPv4,IPv6],Status)
+where 1. Adapter is a string.
+      2. Ethernet is [Type, Code]
+         2.1. Type= "VLAN" or "Protocol"
+         2.2. Code is a string.
+      3. IPV4 is [TCP,ICMP,IPaddress]
+         3.1. TCP is a string
+         3.2. ICMP is [Type,Code] and Type and Code are strings.
+         3.3. IPaddress is [Source, Destination] where Source and Destination are strings.
+      4. IPV6 is [TCP,ICMPv6,IPaddress]
+         3.1. TCP is a string
+         3.2. ICMPv6 is [Type,Code] and Type and Code are strings.
+         3.3. IPaddress is [Source, Destination] where Source and Destination are strings.
+      5. Status is a variable that will return whether the paacket has been allowed, rejected or dropped.
+
+**** Allowed Inputs ******
+
+?- packet(["A-C",["Protocol","tcp"],["86",["4","4"],["0x6.76.56.0xF","32.43.53.53/5"]],["567",["1","1"],["0::5654:AAAA:4333:7654:8765:2456","0:7652:4563:3335:3673::7777:3241"]]],Status).
+Status = "Allowed".
+
+?- packet(["A,B,C",["VLAN","5"],["86",["4","4"],["0x6.76.56.0xF/6","32.43.53.53"]],["567",["1","1"],["0::5654:AAAA:4333:7654:8765:2456","0:7652:4563:3335:3673::7777:3241"]]],Status).
+Status = "Allowed".
+
+?- packet(["A-C",["VLAN","5-6"],["any",["4","4"],["0x6.76.56.0xF","32.43.53.53"]],["567",["1","1"],["0::5654:AAAA:4333:7654:8765:2456","0:7652:4563:3335:3673::7777:3241"]]],Status).
+Status = "Allowed".
+
+**** Rejected Inputs ******
+
+1. "aarp" is rejected in ethernet protocol.
+
+?- packet(["A-C",["Protocol","aarp"],["43",["4","4"],["0x6.76.56.0xF","32.43.53.53"]],["567",["1","1"],["0::5654:AAAA:4333:7654:8765:2456","0:7652:4563:3335:3673::7777:3241"]]],Status).
+Status = "Rejected".
+
+2. "67" is rejected in TCP condition.
+
+?- packet(["A-C",["Protocol","tcp"],["67",["4","4"],["0x6.76.56.0xF","32.43.53.53"]],["567",["1","1"],["0::5654:AAAA:4333:7654:8765:2456","0:7652:4563:3335:3673::7777:3241"]]],Status).
+Status = "Rejected".
+
+3. "67.85.45.76" is a rejected Source IP address.
+
+ ?- packet(["A-C",["Protocol","tcp"],["7",["4","4"],["67.85.45.76","32.43.53.53"]],["567",["1","1"],["0::5654:AAAA:4333:7654:8765:2456","0:7652:4563:3335:3673::7777:3241"]]],Status).
+Status = "Rejected"
+
+**** Dropped Inputs ******
+
+Packets which aren't allowed or rejected are dropped. For example,
+
+?- packet(["A-C",["VLAN","5-6"],["D",["4","4"],["0x6.76.56.0xF","32.43.53.53"]],["567",["1","1"],["0::5654:AAAA:4333:7654:8765:2456","0:7652:4563:3335:3673::7777:3241"]]],Status).
+Status = "Dropped".
+
+

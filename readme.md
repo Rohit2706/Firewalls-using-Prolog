@@ -1,8 +1,8 @@
 # Firewalls Protocols using Prolog Programming
 
-The project intends to implement the firewall protocols using prolog programming language. The project was done in partial fulfillment of my undergraduation at BITS Pilani.
+The project intends to implement the firewall protocols using prolog programming language and predicate logic. The project was done in partial fulfillment of my undergraduation at BITS Pilani.
 
-The project attempts to implement the different protocol clauses using predicate logic. The following content may be referred as an explanation for the code.
+The following content may be referred as an explanation for the code.
 
 ## Predicates:
 

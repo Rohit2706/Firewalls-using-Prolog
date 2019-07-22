@@ -216,21 +216,3 @@ packet([Adapter,Ethernet,IPv4,IPv6],Status) :- consult('Database.pl'),
                                                ( allow([Adapter,Ethernet,IPv4,IPv6],Status),!);
                                                ( reject([_,Ethernet,IPv4,IPv6],Status),!);
                                                ( drop(_,Status)).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
